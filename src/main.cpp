@@ -1,19 +1,16 @@
-#include "ublox_2_odometry.h"
+#include "ublox_2_odometry.hpp"
 
 int main(int argc, char **argv)
 {
-    ros::init(argc, argv, "ublox2Odometry");
 
-    ublox_2_odometry ublox2odom("map", "base_link");
+  rclcpp::init(argc, argv);
 
-    ros::AsyncSpinner spinner(0);
-    spinner.start();
+    auto ublox2odom = std::make_shared<ublox_2_odometry>("map", "base_link");
 
-    ros::Rate rate(10.0);
-    int rate_counter = 0;
-
-    while (ros::ok())
+    rclcpp::Rate rate(10.0);
+    while (rclcpp::ok())
     {
+        rclcpp::spin_some(ublox2odom);
         rate.sleep();
     }
 
